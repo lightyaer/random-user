@@ -1,12 +1,22 @@
 <script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import UserCard from "./components/UserCard.vue";
+import { onMounted, reactive } from "vue";
+
+const state = reactive({
+  user: {},
+});
+
+onMounted(() => {
+  fetch("https://randomuser.me/api")
+    .then((response) => response.json())
+    .then((data) => {
+      state.user = data.results[0];
+    });
+});
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <UserCard :user="state.user" />
 </template>
 
 <style>
